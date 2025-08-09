@@ -10,6 +10,8 @@ echo "配置文件: ${KERNEL_CONFIG}"
 echo "KernelSU类型: ${KERNEL_SU}"
 echo "启用LXC支持: ${ENABLE_LXC}"
 echo "工具链: ${TOOLCHAIN}"
+echo "工具链分支: ${CLANG_BRANCH}"
+echo "工具链版本: ${CLANG_VERSION}"
 echo "额外附加编译命令: ${EXTRA_CMDS}"
 
 # 进入内核目录

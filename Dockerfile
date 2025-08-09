@@ -16,13 +16,27 @@ ARG ARCH=arm64
 # 内核配置文件
 ARG KERNEL_CONFIG=chiron_defconfig
 
+#KernelSU可选的值 kernelsu kernelsu-next suki-su
+ARG KERNEL_SU=kernelsu-next                                                                               
+
+#启用LXC-Docker支持
+ARG ENABLE_LXC=true
+
+#额外编译命令
+ARG EXTRA_CMDS="LLVM=1 LLVM_IAS=1 AS=llvm-as AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf OBJSIZE=llvm-size STRIP=llvm-strip"                                                   
+
+#使用magiskboot打包内核
+ARG USE_MAGISKBOOT=true
+
+
+
 # 编译工具链（默认 clang，可选 gcc）
 ARG TOOLCHAIN=clang
 # 工具链版本（clang 默认 r383902b，gcc 默认 4.9）
 ARG CLANG_BRANCH=android11-release 
 ARG CLANG_VERSION=r383902b
 ARG TOOLCHAIN_DIR=/root/toolchain
-
+ARG GCC_VERSION=
 # 环境变量（容器内可见，用于编译过程）
 ENV DEBIAN_FRONTEND=noninteractive \
     KERNEL_DIR=/root/kernel \
