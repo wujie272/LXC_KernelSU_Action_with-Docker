@@ -58,7 +58,7 @@ RUN if [ "${TOOLCHAIN}" = "clang" ]; then \
     else \
         # 仅使用 gcc 工具链（适用于部分不支持 clang 的内核）
         ln -s /usr/bin/aarch64-linux-gnu-gcc ${TOOLCHAIN_DIR}/gcc64/bin/aarch64-linux-android-gcc; \
-        ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/gcc32/bin/arm-linux-androideabi-gcc;
+        ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/gcc32/bin/arm-linux-androideabi-gcc \
     fi
 
 # 下载内核源码
@@ -68,7 +68,8 @@ RUN git clone --depth=1 -b ${KERNEL_BRANCH} ${KERNEL_SOURCE} ${KERNEL_DIR}
 COPY build_kernel.sh /root/build_kernel.sh
 COPY bin/magiskboot /root/output/tmp/magiskboot
 COPY boot/boot.img /root/output/tmp/boot.img
-RUN sudo chmod 755 /root/build_kernel.sh /root/output/tmp/magiskboot
+RUN chmod 755 /root/build_kernel.sh /root/output/tmp/magiskboot
+
 
 # 工作目录切换到内核源码目录
 WORKDIR ${KERNEL_DIR}
