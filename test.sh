@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e  # 启用错误立即退出
+#set -e  # 启用错误立即退出
 
 #ubuntu版本,可选值18.04 20.04 22.04 24.04 
 UBUNTU_VERSION=22.04
@@ -32,7 +32,7 @@ GCC_VERSION=
 
 # 提前创建输出目录并设置权限
 mkdir -p $GITHUB_WORKSPACE/kernel_workspace
-chmod 777 $GITHUB_WORKSPACE/kernel_workspace
+sudo chmod 777 $GITHUB_WORKSPACE/kernel_workspace
 
 # 构建Docker镜像
 sudo docker build . --file Dockerfile \
@@ -47,7 +47,7 @@ sudo docker build . --file Dockerfile \
              --build-arg TOOLCHAIN=${TOOLCHAIN} \
              --build-arg CLANG_VERSION=${CLANG_VERSION} \
              --build-arg GCC_VERSION=${GCC_VERSION} \
-             --build-arg EXTRA_CMDS="${EXTRA_CMDS}" \  #
+             --build-arg EXTRA_CMDS="${EXTRA_CMDS}" \  
              --build-arg USE_MAGISKBOOT=${USE_MAGISKBOOT} 
 
 # 运行容器（指定用户ID避免权限问题）
