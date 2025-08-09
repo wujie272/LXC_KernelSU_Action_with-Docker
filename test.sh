@@ -40,15 +40,15 @@ sudo docker build . --file Dockerfile \
              --build-arg UBUNTU_VERSION=${UBUNTU_VERSION} \
              --build-arg KERNEL_SOURCE=${KERNEL_SOURCE} \
              --build-arg KERNEL_BRANCH=${KERNEL_BRANCH} \
-             --build-arg KERNEL_CONFIG=${KERNEL_CONFIG} \  
-             --build-arg ARCH=${ARCH}  \
+             --build-arg KERNEL_CONFIG=${KERNEL_CONFIG} \
+	     --build-arg ARCH=${ARCH}  \
              --build-arg KERNEL_SU=${KERNEL_SU} \
              --build-arg ENABLE_LXC=${ENABLE_LXC} \
              --build-arg TOOLCHAIN=${TOOLCHAIN} \
-             --build-arg CLANG_VERSION=${CLANG_VERSION} \
+	     --build-arg CLANG_VERSION=${CLANG_VERSION} \
              --build-arg GCC_VERSION=${GCC_VERSION} \
-             --build-arg EXTRA_CMDS="${EXTRA_CMDS}" \  
-             --build-arg USE_MAGISKBOOT=${USE_MAGISKBOOT} 
+             --build-arg USE_MAGISKBOOT=${USE_MAGISKBOOT} \
+	     --build-arg EXTRA_CMDS="${EXTRA_CMDS}"
 
 # 运行容器（指定用户ID避免权限问题）
 sudo docker run -u 1001:1001 \
