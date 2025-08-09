@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 创建工作目录
-RUN mkdir -p ${KERNEL_DIR} ${TOOLCHAIN_DIR} ${OUTPUT_DIR} ${TMP_DIR}
+RUN mkdir -p ${KERNEL_DIR} ${TOOLCHAIN_DIR} ${TOOLCHAIN_DIR}/gcc64 ${TOOLCHAIN_DIR}/gcc32 ${OUTPUT_DIR} ${TMP_DIR}
 
 # 下载编译工具链
 RUN if [ "${TOOLCHAIN}" = "clang" ]; then \
@@ -56,11 +56,11 @@ RUN if [ "${TOOLCHAIN}" = "clang" ]; then \
         tar -xf arm-linux-androideabi-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc32; \
         wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/aarch64-linux-android-4.9.tar.xz; \
         tar -xf aarch64-linux-android-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc64; \
-        rm *.xz; 
+        rm *.xz; \ 
      else \
         # 仅使用 gcc 工具链（适用于部分不支持 clang 的内核） \
         ln -s /usr/bin/aarch64-linux-gnu-gcc ${TOOLCHAIN_DIR}/gcc64/bin/aarch64-linux-android-gcc; \
-        ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/gcc32/bin/arm-linux-androideabi-gcc \
+        ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/gcc32/bin/arm-linux-androideabi-gcc; \
     fi
 
 # 下载内核源码
