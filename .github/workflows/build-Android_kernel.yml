@@ -33,7 +33,7 @@ jobs:
       run: |
         echo "BUILD_TIME=$(TZ=Asia/Shanghai date "+%Y%m%d%H%M")" >> $GITHUB_ENV
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
-        sudo chmod +x *.sh
+        sudo chmod 755 *.sh
         sudo ./test.sh
         
      
