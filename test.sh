@@ -27,6 +27,7 @@ USE_MAGISKBOOT=true
 
 # 编译工具链
 TOOLCHAIN=clang
+CLANG_BRANCH=android11-release
 CLANG_VERSION=r450784b
 GCC_VERSION=
 
@@ -45,6 +46,7 @@ sudo docker build . --file Dockerfile \
              --build-arg KERNEL_SU=${KERNEL_SU} \
              --build-arg ENABLE_LXC=${ENABLE_LXC} \
              --build-arg TOOLCHAIN=${TOOLCHAIN} \
+	     --build-arg CLANG_BRANCH=${CLANG_BRANCH} \
 	     --build-arg CLANG_VERSION=${CLANG_VERSION} \
              --build-arg GCC_VERSION=${GCC_VERSION} \
              --build-arg USE_MAGISKBOOT=${USE_MAGISKBOOT} \

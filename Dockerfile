@@ -19,8 +19,8 @@ ARG KERNEL_CONFIG=chiron_defconfig
 # 编译工具链（默认 clang，可选 gcc）
 ARG TOOLCHAIN=clang
 # 工具链版本（clang 默认 r383902b，gcc 默认 4.9）
+ARG CLANG_BRANCH=android11-release 
 ARG CLANG_VERSION=r383902b
-ARG GCC_VERSION=4.9
 
 # 环境变量（容器内可见，用于编译过程）
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -28,7 +28,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TOOLCHAIN_DIR=/root/toolchain \
     OUTPUT_DIR=/root/output \
     TMP_DIR=/root/output/tmp \
-    PATH="${TOOLCHAIN_DIR}/bin:${PATH}"
+    PATH="${TOOLCHAIN_DIR}/clang-${CLANG_VERSION}/bin:${PATH}"
 
 # 安装基础依赖
 RUN apt-get update && apt-get install -y \
@@ -50,17 +50,15 @@ RUN mkdir -p ${KERNEL_DIR} ${TOOLCHAIN_DIR} ${OUTPUT_DIR} ${TMP_DIR}
 # 下载编译工具链
 RUN if [ "${TOOLCHAIN}" = "clang" ]; then \
         # 下载 clang 工具链（安卓官方推荐版本）
-        wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/tags/${CLANG_VERSION}/clang-${CLANG_VERSION}.tar.gz -O - | \
-        tar -zxf - -C ${TOOLCHAIN_DIR}; \
+        git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR}; \
+
         # 下载配套的 gcc 工具链（用于链接等步骤）
-        wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-${GCC_VERSION}/+archive/refs/heads/master.tar.gz -O - | \
-        tar -zxf - -C ${TOOLCHAIN_DIR}; \
-        wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-${GCC_VERSION}/+archive/refs/heads/master.tar.gz -O - | \
-        tar -zxf - -C ${TOOLCHAIN_DIR}; \
+        git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b ${CLANG_BRANCH} gcc64 ; \
+         git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b ${CLANG_BRANCH} gcc32 ; \
     else \
         # 仅使用 gcc 工具链（适用于部分不支持 clang 的内核）
-        ln -s /usr/bin/aarch64-linux-gnu-gcc ${TOOLCHAIN_DIR}/aarch64-linux-android-gcc; \
-        ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/arm-linux-androideabi-gcc; \
+        ln -s /usr/bin/aarch64-linux-gnu-gcc ${TOOLCHAIN_DIR}/gcc64/bin/aarch64-linux-android-gcc; \
+        ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/gcc32~bin/arm-linux-androideabi-gcc; \
     fi
 
 # 下载内核源码
