@@ -83,7 +83,8 @@ GCC_VERSION=
 
 
 ##以下几乎不休改
-sudo docker build \
+sudo docker build . --file Dockerfile \
+             --tag android-kernel-builder:latest \
              --build-arg UBUNTU_VERSION=${UBUNTU_VERSION} \
              --build-arg KERNEL_SOURCE=${KERNEL_SOURCE} \
              --build-arg KERNEL_BRANCH=${KERNEL_BRANCH} \
@@ -94,8 +95,8 @@ sudo docker build \
              --build-arg CLANG_VERSION=${CLANG_VERSION} \
              --build-arg GCC_VERSION=${GCC_VERSION} \
              --build-arg EXTRA_CMDS=${EXTRA_CMDS} \
-             --build-arg USE_MAGISKBOOT=${USE_MAGISKBOOT} \
-             -t android-kernel-builder:latest .
+             --build-arg USE_MAGISKBOOT=${USE_MAGISKBOOT} 
+             
           
 sudo docker run -v $GITHUB_WORKSPACE/kernel_workspace:/root/output android-kernel-builder:latest
 
