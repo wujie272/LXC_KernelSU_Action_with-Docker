@@ -49,14 +49,13 @@ RUN mkdir -p ${KERNEL_DIR} ${TOOLCHAIN_DIR} ${OUTPUT_DIR} ${TMP_DIR}
 
 # 下载编译工具链
 RUN if [ "${TOOLCHAIN}" = "clang" ]; then \
-        # 下载 clang 工具链（安卓官方推荐版本）
+        # 下载 clang 工具链（安卓官方推荐版本） \
         git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR}; \
-
-        # 下载配套的 gcc 工具链（用于链接等步骤）
-        git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR}/gcc64 ; \
-         git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR}/gcc32 ; \
+        # 下载配套的 gcc 工具链（用于链接等步骤） \
+        git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR}/gcc64; \
+        git clone -q --depth=1 --single-branch https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR}/gcc32; \
     else \
-        # 仅使用 gcc 工具链（适用于部分不支持 clang 的内核）
+        # 仅使用 gcc 工具链（适用于部分不支持 clang 的内核） \
         ln -s /usr/bin/aarch64-linux-gnu-gcc ${TOOLCHAIN_DIR}/gcc64/bin/aarch64-linux-android-gcc; \
         ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/gcc32/bin/arm-linux-androideabi-gcc \
     fi
