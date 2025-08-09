@@ -19,7 +19,8 @@ cd ${KERNEL_DIR}
 
 #启用LXC-Docker支持
 if [ "${ENABLE_LXC}" = "true" ]; then
-    git clone https://github.com/tomxi1997/lxc-docker-support-for-android.git utils
+	echo "启用LXC-Docker支持"
+        git clone https://github.com/tomxi1997/lxc-docker-support-for-android.git utils
         echo 'source "utils/Kconfig"' >> "Kconfig"
 
         # 添加LXC配置
@@ -54,7 +55,9 @@ fi
 if [ "${KERNEL_SU}" = "suki-su" ]; then
      curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s main
 fi
- 
+
+
+export PATH="${TOOLCHAIN_DIR}/clang-${CLANG_VERSION}/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
  
 # 设置编译参数
 MAKE_OPTS="\
