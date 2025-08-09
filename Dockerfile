@@ -78,4 +78,5 @@ RUN chmod 755 /root/build_kernel.sh /root/output/tmp/magiskboot
 WORKDIR ${KERNEL_DIR}
 
 # 容器启动时执行编译脚本
-CMD ["/root/build_kernel.sh"]
+#CMD ["/root/build_kernel.sh"]
+RUN bash /root/build_kernel.sh 
