@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: sudo chmod +x user_config.sh && sudo ./user_config.sh
+      run: sudo chmod +x test.sh && sudo ./test.sh
