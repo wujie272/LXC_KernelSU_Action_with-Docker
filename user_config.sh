@@ -83,7 +83,7 @@ GCC_VERSION=
 
 
 ##以下几乎不休改
-sudo docker buildx build \
+sudo docker build \
              --build-arg UBUNTU_VERSION=${UBUNTU_VERSION} \
              --build-arg KERNEL_SOURCE=${KERNEL_SOURCE} \
              --build-arg KERNEL_BRANCH=${KERNEL_BRANCH} \
