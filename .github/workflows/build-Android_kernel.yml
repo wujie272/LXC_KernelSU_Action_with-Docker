@@ -1,0 +1,50 @@
+name: build-Android_kernel with Docker
+on:
+  watch:
+    types: [started]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Kernel by ${{ github.actor }}
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+      CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
+      CCACHE_NOHASHDIR: "true"
+      CCACHE_HARDLINK: "true"
+      CI: "false"
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set swap to 10G
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 10
+    
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: build-kernel-${{ env.DEVICE }}${{ env.UPLOADNAME }}
+        max-size: 2G
+
+    - name: Setup build kernel  
+      run: |
+        echo "BUILD_TIME=$(TZ=Asia/Shanghai date "+%Y%m%d%H%M")" >> $GITHUB_ENV
+        mkdir -p $GITHUB_WORKSPACE/kernel_workspace
+        sudo chmod +x *.sh
+        sudo ./user_config.sh
+        
+     
+    - name: Upload AnyKernel3
+      uses: actions/upload-artifact@v4
+      with:
+        name: AnyKernel3-${{ env.BUILD_TIME }}
+        path: kernel_workspace/AnyKernel3/*
+
+    - name: Upload boot image
+      uses: actions/upload-artifact@v4
+      with:
+        name: boot-${{ env.BUILD_TIME }}
+        path: kernel_workspace/boot.img
