@@ -53,6 +53,6 @@ sudo docker build . --file Dockerfile \
 	     --build-arg EXTRA_CMDS="${EXTRA_CMDS}"
 
 # 运行容器（指定用户ID避免权限问题）
-sudo docker run -ti -u 1001:1001 \
+sudo docker run -u 1001:1001 \
   -v $GITHUB_WORKSPACE/kernel_workspace:/root/output \
   android-kernel-builder:latest
