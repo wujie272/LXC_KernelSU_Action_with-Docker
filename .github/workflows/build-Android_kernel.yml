@@ -34,7 +34,7 @@ jobs:
         echo "BUILD_TIME=$(TZ=Asia/Shanghai date "+%Y%m%d%H%M")" >> $GITHUB_ENV
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
         sudo chmod +x *.sh
-        sudo ./user_config.sh
+        sudo ./test.sh
         
      
     - name: Upload AnyKernel3
