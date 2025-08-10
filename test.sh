@@ -27,8 +27,8 @@ USE_MAGISKBOOT=true
 
 # 编译工具链
 TOOLCHAIN=clang
-CLANG_BRANCH=android3-release
-CLANG_VERSION=r450784d
+CLANG_BRANCH=android11-release
+CLANG_VERSION=r383902b
 GCC_VERSION=
 
 # 提前创建输出目录并设置权限
