@@ -30,8 +30,7 @@ ARG USE_MAGISKBOOT=true
 
 
 
-# 编译工具链（默认 clang，可选 gcc）
-ARG TOOLCHAIN=clang
+
 # 工具链版本（clang 默认 r383902b，gcc 默认 4.9）
 ARG CLANG_BRANCH=android11-release 
 ARG CLANG_VERSION=r383902b
@@ -41,9 +40,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     KERNEL_DIR=/root/kernel \
     TOOLCHAIN_DIR=/root/toolchain \
     OUTPUT_DIR=/root/output \
-    TMP_DIR=/root/output/tmp \
-    PATH="${TOOLCHAIN_DIR}/clang-${CLANG_VERSION}/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
-
+    TMP_DIR=/root/output/tmp 
+    
 # 安装基础依赖
 RUN apt-get update && apt-get install -y \
     # 基础工具
@@ -62,23 +60,19 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p ${KERNEL_DIR} ${TOOLCHAIN_DIR} ${TOOLCHAIN_DIR}/gcc64 ${TOOLCHAIN_DIR}/gcc32 ${OUTPUT_DIR} ${TMP_DIR}
 
 # 下载编译工具链
-RUN if [ "${TOOLCHAIN}" = "clang" ]; then \
+
         # 下载 clang 工具链（安卓官方推荐版本） \
        # git clone --depth=1 https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR}; \
         # 下载配套的 gcc 工具链（用于链接等步骤） \
-        wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/arm-linux-androideabi-4.9.tar.xz; \
-        git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 -b ${CLANG_BRANCH} --depth=1 ${TOOLCHAIN_DIR}; \
-        tar -xf arm-linux-androideabi-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc32; \
-        wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/aarch64-linux-android-4.9.tar.xz; \
-        tar -xf aarch64-linux-android-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc64; \
-        rm *.xz; \ 
-     else \
-        # 仅使用 gcc 工具链（适用于部分不支持 clang 的内核） \
-        ln -s /usr/bin/aarch64-linux-gnu-gcc ${TOOLCHAIN_DIR}/gcc64/bin/aarch64-linux-android-gcc; \
-        ln -s /usr/bin/arm-linux-gnueabihf-gcc ${TOOLCHAIN_DIR}/gcc32/bin/arm-linux-androideabi-gcc; \
-    fi
+        wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/arm-linux-androideabi-4.9.tar.xz
+        git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 -b ${CLANG_BRANCH} --depth=1 ${TOOLCHAIN_DIR}
+        tar -xf arm-linux-androideabi-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc32
+        wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/aarch64-linux-android-4.9.tar.xz
+        tar -xf aarch64-linux-android-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc64
+        rm *.xz
 
 # 下载内核源码
+ENV PATH="${TOOLCHAIN_DIR}/clang-${CLANG_VERSION}/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
 RUN git clone --depth=1 -b ${KERNEL_BRANCH} ${KERNEL_SOURCE} ${KERNEL_DIR}
 
 # 复制编译脚本（后续通过容器内脚本执行编译）
