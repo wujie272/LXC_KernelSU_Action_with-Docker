@@ -35,7 +35,6 @@ ARG TOOLCHAIN=clang
 # 工具链版本（clang 默认 r383902b，gcc 默认 4.9）
 ARG CLANG_BRANCH=android11-release 
 ARG CLANG_VERSION=r383902b
-ARG TOOLCHAIN_DIR=/root/toolchain
 ARG GCC_VERSION=
 # 环境变量（容器内可见，用于编译过程）
 ENV DEBIAN_FRONTEND=noninteractive \
