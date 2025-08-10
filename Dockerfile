@@ -40,7 +40,7 @@ ARG GCC_VERSION=
 # 环境变量（容器内可见，用于编译过程）
 ENV DEBIAN_FRONTEND=noninteractive \
     KERNEL_DIR=/root/kernel \
-    TOOLCHAIN_DIR=TOOLCHAIN_DIR=${TOOLCHAIN_DIR} \
+    TOOLCHAIN_DIR=/root/toolchain \
     OUTPUT_DIR=/root/output \
     TMP_DIR=/root/output/tmp \
     PATH="${TOOLCHAIN_DIR}/clang-${CLANG_VERSION}/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
