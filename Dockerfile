@@ -57,22 +57,25 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 创建工作目录
-RUN mkdir -p ${KERNEL_DIR} ${TOOLCHAIN_DIR} ${TOOLCHAIN_DIR}/gcc64 ${TOOLCHAIN_DIR}/gcc32 ${OUTPUT_DIR} ${TMP_DIR}
+RUN mkdir -p ${TOOLCHAIN_DIR}/gcc64 ${TOOLCHAIN_DIR}/gcc32 ${OUTPUT_DIR} ${TMP_DIR}
 
 # 下载编译工具链
 
-        # 下载 clang 工具链（安卓官方推荐版本） \
-RUN git clone --depth=1 https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 -b ${CLANG_BRANCH} ${TOOLCHAIN_DIR} && \
-        # 下载配套的 gcc 工具链（用于链接等步骤） \
-    wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/arm-linux-androideabi-4.9.tar.xz && \
+        
+    # 下载配套的 gcc 工具链（用于链接等步骤） \
+RUN wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/arm-linux-androideabi-4.9.tar.xz && \
     tar -xf arm-linux-androideabi-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc32 && \
     wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/aarch64-linux-android-4.9.tar.xz && \
     tar -xf aarch64-linux-android-4.9.tar.xz -C ${TOOLCHAIN_DIR}/gcc64 && \
-    rm *.xz
+    rm *.xz && \
+    cd ${TOOLCHAIN_DIR} && \
+    # 下载 clang 工具链（安卓官方推荐版本） \
+    git clone --depth=1 https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 -b ${CLANG_BRANCH} clang && cd ..
+       
 
 # 下载内核源码
-ENV PATH="${TOOLCHAIN_DIR}/clang-${CLANG_VERSION}/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
-RUN git clone --depth=1 -b ${KERNEL_BRANCH} ${KERNEL_SOURCE} ${KERNEL_DIR}
+ENV PATH="${TOOLCHAIN_DIR}/clang/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
+RUN cd /root && git clone --depth=1 -b ${KERNEL_BRANCH} ${KERNEL_SOURCE} kernel && cd ..
 
 # 复制编译脚本（后续通过容器内脚本执行编译）
 COPY build_kernel.sh /root/build_kernel.sh
