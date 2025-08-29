@@ -74,7 +74,7 @@ RUN wget https://gitlab.com/tomxi1997/google_gcc-4.9/-/raw/main/arm-linux-androi
        
 
 # 下载内核源码
-ENV PATH="${TOOLCHAIN_DIR}/clang/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
+ENV PATH="${TOOLCHAIN_DIR}/clang/bin:${TOOLCHAIN_DIR}/gcc64/aarch64-linux-android-4.9/bin:${TOOLCHAIN_DIR}/gcc32/arm-linux-androideabi-4.9/bin:${PATH}"
 RUN cd /root && git clone --depth=1 -b ${KERNEL_BRANCH} ${KERNEL_SOURCE} kernel && cd ..
 
 # 复制编译脚本（后续通过容器内脚本执行编译）
