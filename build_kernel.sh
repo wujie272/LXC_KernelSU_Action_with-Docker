@@ -57,7 +57,7 @@ if [ "${KERNEL_SU}" = "suki-su" ]; then
 fi
 
 
-export PATH="${TOOLCHAIN_DIR}/clang-${CLANG_VERSION}/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
+export PATH="${TOOLCHAIN_DIR}/clang/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
  
 # 设置编译参数
 MAKE_OPTS="\
