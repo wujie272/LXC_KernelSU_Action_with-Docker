@@ -57,8 +57,7 @@ if [ "${KERNEL_SU}" = "suki-su" ]; then
 fi
 
 
-export PATH="${TOOLCHAIN_DIR}/clang/bin:${TOOLCHAIN_DIR}/gcc64/bin:${TOOLCHAIN_DIR}/gcc32/bin:${PATH}"
- 
+export PATH="${TOOLCHAIN_DIR}/clang/bin:${TOOLCHAIN_DIR}/gcc64/aarch64-linux-android-4.9/bin:${TOOLCHAIN_DIR}/gcc32/arm-linux-androideabi-4.9/bin:${PATH}"
 # 设置编译参数
 MAKE_OPTS="\
     O=${OUTPUT_DIR} \
