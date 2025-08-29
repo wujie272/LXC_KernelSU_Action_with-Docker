@@ -5,11 +5,11 @@
 UBUNTU_VERSION=22.04
 
 #内核源码
-KERNEL_SOURCE=https://github.com/LineageOS/android_kernel_xiaomi_msm8998
+KERNEL_SOURCE=https://github.com/xiaoleGun/android_kernel_xiaomi_wayne-4.19
 #分支
-KERNEL_BRANCH=lineage-22.2
+KERNEL_BRANCH=twrp-12
 #内核配置文件
-KERNEL_CONFIG=chiron_defconfig
+KERNEL_CONFIG=vendor/wayne_defconfig
 #架构
 ARCH=arm64
 
