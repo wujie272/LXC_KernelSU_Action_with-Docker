@@ -56,7 +56,7 @@ if [ "${KERNEL_SU}" = "suki-su" ]; then
      curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s main
 fi
 
-exxport TOOLCHAIN_DIR=/root
+export TOOLCHAIN_DIR=/root
 export PATH="${TOOLCHAIN_DIR}/clang/bin:${TOOLCHAIN_DIR}/gcc64/aarch64-linux-android-4.9/bin:${TOOLCHAIN_DIR}/gcc32/arm-linux-androideabi-4.9/bin:${PATH}"
 # 设置编译参数
 MAKE_OPTS="\
@@ -75,7 +75,7 @@ make ${MAKE_OPTS} ${KERNEL_CONFIG}
 
 # 编译内核
 echo "===== 编译内核中....... ====="
-echo $PATH && clang -v
+echo $PATH && clang -v && ls ${TOOLCHAIN_DIR}/gcc64/aarch64-linux-android-4.9/bin
 echo "=====....... ====="
 make ${MAKE_OPTS}
 
