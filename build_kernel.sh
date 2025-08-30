@@ -75,6 +75,8 @@ make ${MAKE_OPTS} ${KERNEL_CONFIG}
 
 # 编译内核
 echo "===== 编译内核中....... ====="
+echo $$PATH
+clang -v
 make ${MAKE_OPTS}
 
 # 复制输出文件到 OUTPUT_DIR
