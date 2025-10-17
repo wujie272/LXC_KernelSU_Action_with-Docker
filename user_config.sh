@@ -3,7 +3,7 @@
 UBUNTU_VERSION=22.04
 
 #内核源码
-KERNEL_SOURCE=https://github.com/LineageOS/android_kernel_xiaomi_msm8998
+KERNEL_SOURCE=https://github.com/Laulan56/android_kernel_xiaomi_sm8150
 #分支
 KERNEL_BRANCH=lineage-22.2
 #内核配置文件
