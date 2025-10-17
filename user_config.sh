@@ -7,7 +7,7 @@ KERNEL_SOURCE=https://github.com/Laulan56/android_kernel_xiaomi_sm8150
 #分支
 KERNEL_BRANCH=android14
 #内核配置文件
-KERNEL_CONFIG=raphael_defconfigraphael_defconfig
+KERNEL_CONFIG=raphael_defconfig
 #架构
 ARCH=arm64
 
