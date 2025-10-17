@@ -7,12 +7,12 @@ KERNEL_SOURCE=https://github.com/Laulan56/android_kernel_xiaomi_sm8150
 #分支
 KERNEL_BRANCH=android14
 #内核配置文件
-KERNEL_CONFIG=chiron_defconfig
+KERNEL_CONFIG=raphael_defconfigraphael_defconfig
 #架构
 ARCH=arm64
 
 #KernelSU可选的值 kernelsu kernelsu-next suki-su
-KERNEL_SU=kernelsu-next
+KERNEL_SU=suki-su
 
 
 #启用LXC-Docker支持
